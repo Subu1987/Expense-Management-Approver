@@ -1,0 +1,562 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	controllerName="com.infocus-Expense-Management-Approver.controller.Detail">
+	<Page showHeader="false">
+		<HBox width="100%" alignItems="Center" class="sapUiSmallMarginTopBottom">
+			<Title text="Expense Details" titleStyle="H2" class="sapUiSmallMarginBegin"/>
+			<!--<HBox>
+				<Button text="Request Advance" class="sapUiTinyMarginEnd"/>
+				<Button text="Edit"/>
+			</HBox>-->
+		</HBox>
+		<!-- Trip Information Section -->
+		<Panel width="95%" class="sapUiSmallMargin borderBottom noBorderPanel">
+			<content>
+				<FlexBox width="100%" justifyContent="SpaceAround" direction="Column">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom">
+						<core:Icon src="sap-icon://suitcase" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+						<Title text="Trip Information"/>
+					</HBox>
+					<!-- Your trip information content here -->
+					<FlexBox width="100%" justifyContent="Center" class="border-lineRadius" direction="Column" alignItems="Center">
+						<FlexBox height="250px" id="tripViewReviewPage" wrap="Wrap" visible="true" alignItems="Center" width="90%">
+							<HBox width="25%" direction="Column" alignItems="Start">
+								<Label text="Travel Type"/>
+								<Title text="{travelDetails>/0/TRAVEL_TYPE}" titleStyle="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="Trip"/>
+								<Title text="{travelDetails>/0/TRIP_TYPE}" titleStyle="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="From Location"/>
+								<Title text="{travelDetails>/0/FROM_LOCATION}" titleStyle="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="To Location"/>
+								<Title text="{travelDetails>/0/TO_LOCATION}" titleStyle="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="Start Date"/>
+								<Title text="{travelDetails>/0/BEGDA}" level="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="End Date"/>
+								<Title text="{travelDetails>/0/ENDDA}" level="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="Purpose"/>
+								<Title text="{travelDetails>/0/PURPOSE}" titleStyle="H5"/>
+							</HBox>
+							<HBox width="25%" direction="Column">
+								<Label text="Trip Cost Center"/>
+								<Title text="{travelDetails>/0/COST_CENTER}" titleStyle="H5"/>
+							</HBox>
+							<HBox width="auto" direction="Column">
+								<Label text="Travel Details"/>
+								<Title text="{travelDetails>/0/TRAVEL_DETAIL}" titleStyle="H5"/>
+							</HBox>
+						</FlexBox>
+					</FlexBox>
+				</FlexBox>
+			</content>
+		</Panel>
+		<!-- Expense Item Section -->
+		<Panel width="95%" class="sapUiSmallMargin noBorderPanel">
+			<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceBetween" alignItems="Center">
+				<HBox>
+					<core:Icon src="sap-icon://money-bills" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Expense Item"/>
+				</HBox>
+				<!--<HBox>
+					<Button text="Add Item" press="openAddItemDialog"/>
+				</HBox>-->
+			</HBox>
+			<List id="list" items="{expenseItems>/}">
+				<items>
+					<CustomListItem>
+						<FlexBox width="100%" direction="Column" class="sapUiSmallMarginTopBottom">
+							<!-- Hotel -->
+							<FlexBox width="100%" class="sapUiTinyMarginBottom border-lineRadius" direction="Column">
+								<FlexBox justifyContent="SpaceAround" height="100px" alignItems="Center">
+									<HBox direction="Column" width="23%">
+										<Title text="Accommodation Type"/>
+										<Text text="Hotel"/>
+									</HBox>
+									<HBox direction="Column" width="23%">
+										<Title text="Budgeted Amount"/>
+										<Text text="₹{expenseItems>HOTEL_AMT}"/>
+									</HBox>
+									<HBox direction="Column" width="23%">
+										<Title text="Actual Amount"/>
+										<Input value="{expenseItems>HOTEL_ACT}"/>
+									</HBox>
+								</FlexBox>
+								<!-- Hotel Documents -->
+								<FlexBox justifyContent="Center" direction="Column">
+									<Panel width="100%" class="border-lineRadiusOval">
+										<HBox width="98%" justifyContent="End">
+											<Button id="Hotel" customData:value="HOTEL" text="Add File" press="openFileUpload"/>
+										</HBox>
+										<UploadCollection id="hotelFilesView" items="{uploadedFiles>/HOTEL}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete"
+											uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+											<items>
+												<UploadCollectionItem documentId="HOTEL" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+													visibleEdit="false"/>
+											</items>
+										</UploadCollection>
+									</Panel>
+								</FlexBox>
+							</FlexBox>
+							<!-- Flight -->
+							<FlexBox width="100%" class="sapUiTinyMarginBottom border-lineRadius" direction="Column">
+								<FlexBox justifyContent="SpaceAround" height="100px" alignItems="Center">
+									<HBox direction="Column" width="23%">
+										<Title text="Travel Type"/>
+										<Text text="Flight"/>
+									</HBox>
+									<HBox direction="Column" width="23%">
+										<Title text="Budgeted Amount"/>
+										<Text text="₹{expenseItems>FLIGHT_AMT}"/>
+									</HBox>
+									<HBox direction="Column" width="23%">
+										<Title text="Actual Amount"/>
+										<Input value="{expenseItems>FLIGHT_ACT}"/>
+									</HBox>
+								</FlexBox>
+								<!-- Flight Documents -->
+								<FlexBox justifyContent="Center" direction="Column">
+									<Panel width="100%" class="border-lineRadiusOval">
+										<HBox width="98%" justifyContent="End">
+											<Button id="Flight" customData:value="FLIGHT" text="Add File" press="openFileUpload"/>
+										</HBox>
+										<UploadCollection id="flightFilesView" items="{uploadedFiles>/FLIGHT}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete"
+											uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+											<items>
+												<UploadCollectionItem documentId="FLIGHT" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+													visibleEdit="false"/>
+											</items>
+										</UploadCollection>
+									</Panel>
+								</FlexBox>
+							</FlexBox>
+							<!-- Train -->
+							<FlexBox width="100%" class="sapUiTinyMarginBottom border-lineRadius" direction="Column">
+								<FlexBox justifyContent="SpaceAround" height="100px" alignItems="Center">
+									<HBox direction="Column" width="23%">
+										<Title text="Travel Type"/>
+										<Text text="Train"/>
+									</HBox>
+									<HBox direction="Column" width="23%">
+										<Title text="Budgeted Amount"/>
+										<Text text="₹{expenseItems>TRAIN_AMT}"/>
+									</HBox>
+									<HBox direction="Column" width="23%">
+										<Title text="Actual Amount"/>
+										<Input value="{expenseItems>TRAIN_ACT}"/>
+									</HBox>
+								</FlexBox>
+								<!-- Train Documents -->
+								<FlexBox justifyContent="Center" direction="Column">
+									<Panel width="100%" class="border-lineRadiusOval">
+										<HBox width="98%" justifyContent="End">
+											<Button id="Train" customData:value="TRAIN" text="Add File" press="openFileUpload"/>
+										</HBox>
+										<UploadCollection id="trainFilesView" items="{uploadedFiles>/TRAIN}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete"
+											uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+											<items>
+												<UploadCollectionItem documentId="TRAIN" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+													visibleEdit="false"/>
+											</items>
+										</UploadCollection>
+									</Panel>
+								</FlexBox>
+							</FlexBox>
+						</FlexBox>
+					</CustomListItem>
+				</items>
+			</List>
+			<!--Food item-->
+			<FlexBox id="FoodExpense" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://meal" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Food"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox width="23%">
+							<Title text="Title"/>
+						</HBox>
+						<HBox width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox width="23%">
+							<Title text="Amount"/>
+						</HBox>
+					</HBox>
+					<List id="list2" items="{expenseItemsExtra>/Food Expense}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+					<FlexBox justifyContent="Center" direction="Column">
+						<Panel width="100%" class="border-lineRadiusOval">
+							<!--<HBox width="98%" justifyContent="End">
+								<Button id="FOOD" customData:value="FoodExpense" text="Add File" press="openFileUpload"/>
+							</HBox>-->
+							<UploadCollection id="foodFiles" items="{uploadedFiles>/FoodExpense}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete"
+								uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+								<items>
+									<UploadCollectionItem documentId="FoodExpense" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+										visibleEdit="false" visibleDelete="false" enableDelete="false"/>
+								</items>
+							</UploadCollection>
+						</Panel>
+					</FlexBox>
+				</FlexBox>
+			</FlexBox>
+			<!--laundry item-->
+			<FlexBox id="Laundry" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://washing-machine" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Laundry"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox direction="Column" width="23%">
+							<Title text="Title"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Amount"/>
+						</HBox>
+					</HBox>
+					<List id="list3" items="{expenseItemsExtra>/Laundry}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+					<FlexBox justifyContent="Center" direction="Column">
+						<Panel width="100%" class="border-lineRadiusOval">
+							<!--<HBox width="98%" justifyContent="End">
+								<Button id="LAUNDRY" customData:value="Laundry" text="Add File" press="openFileUpload"/>
+							</HBox>-->
+							<UploadCollection id="LaundryFiles" items="{uploadedFiles>/Laundry}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete"
+								uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+								<items>
+									<UploadCollectionItem documentId="Laundry" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+										visibleEdit="false" visibleDelete="false" enableDelete="false"/>
+								</items>
+							</UploadCollection>
+						</Panel>
+					</FlexBox>
+				</FlexBox>
+			</FlexBox>
+			<!--local conveyance-->
+			<FlexBox id="LocalConveyance" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://locate-me" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Local Conveyance"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox direction="Column" width="23%">
+							<Title text="Title"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Amount"/>
+						</HBox>
+					</HBox>
+					<List id="list4" items="{expenseItemsExtra>/Local Conveyance}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+					<FlexBox justifyContent="Center" direction="Column">
+						<Panel width="100%" class="border-lineRadiusOval">
+							<!--<HBox width="98%" justifyContent="End">
+								<Button id="LOCALCONVEYANCE" customData:value="LocalConveyance" text="Add File" press="openFileUpload"/>
+							</HBox>-->
+							<UploadCollection id="LocalConveyanceFiles" items="{uploadedFiles>/LocalConveyance}" uploadEnabled="false" uploadButtonInvisible="true"
+								mode="Delete" uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+								<items>
+									<UploadCollectionItem documentId="LocalConveyance" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}"
+										enableEdit="false" visibleEdit="false" visibleDelete="false" enableDelete="false"/>
+								</items>
+							</UploadCollection>
+						</Panel>
+					</FlexBox>
+				</FlexBox>
+			</FlexBox>
+			<!--Telephone/Mobile Bill-->
+			<FlexBox id="TelephoneorMobileBill" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://call" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Telephone/Mobile Bill"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox direction="Column" width="23%">
+							<Title text="Title"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Amount"/>
+						</HBox>
+					</HBox>
+					<List id="list5" items="{expenseItemsExtra>/Telephone or Mobile Bill}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+					<FlexBox justifyContent="Center" direction="Column">
+						<Panel width="100%" class="border-lineRadiusOval">
+							<!--<HBox width="98%" justifyContent="End">
+								<Button id="TELEPHONEORMOBILEBILL" customData:value="TelephoneorMobileBill" text="Add File" press="openFileUpload"/>
+							</HBox>-->
+							<UploadCollection id="TelephoneorMobileBillFiles" items="{uploadedFiles>/TelephoneorMobileBill}" uploadEnabled="false"
+								uploadButtonInvisible="true" mode="Delete" uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+								<items>
+									<UploadCollectionItem documentId="TelephoneorMobileBill" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}"
+										enableEdit="false" visibleEdit="false" visibleDelete="false" enableDelete="false"/>
+								</items>
+							</UploadCollection>
+						</Panel>
+					</FlexBox>
+				</FlexBox>
+			</FlexBox>
+			<!--Tips-->
+			<FlexBox id="Tips" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://wallet" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Tips"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox direction="Column" width="23%">
+							<Title text="Title"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Amount"/>
+						</HBox>
+					</HBox>
+					<List id="list6" items="{expenseItemsExtra>/Tips}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+					<FlexBox justifyContent="Center" direction="Column">
+						<Panel width="100%" class="border-lineRadiusOval">
+							<!--<HBox width="98%" justifyContent="End">
+								<Button id="TIPS" customData:value="Tips" text="Add File" press="openFileUpload"/>
+							</HBox>-->
+							<UploadCollection id="TipsFiles" items="{uploadedFiles>/Tips}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete" uploadUrl=""
+								fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+								<items>
+									<UploadCollectionItem documentId="Tips" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+										visibleEdit="false" visibleDelete="false" enableDelete="false"/>
+								</items>
+							</UploadCollection>
+						</Panel>
+					</FlexBox>
+				</FlexBox>
+			</FlexBox>
+			<!--Others-->
+			<FlexBox id="Others" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://add-product" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Others"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox direction="Column" width="23%">
+							<Title text="Title"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Amount"/>
+						</HBox>
+					</HBox>
+					<List id="list7" items="{expenseItemsExtra>/Others}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+					<FlexBox justifyContent="Center" direction="Column">
+						<Panel width="100%" class="border-lineRadiusOval">
+							<!--<HBox width="98%" justifyContent="End">
+								<Button id="OTHERS" customData:value="Others" text="Add File" press="openFileUpload"/>
+							</HBox>-->
+							<UploadCollection id="OthersFiles" items="{uploadedFiles>/Others}" uploadEnabled="false" uploadButtonInvisible="true" mode="Delete"
+								uploadUrl="" fileDeleted="deleteUploadedFile" noDataText="No Files to View.">
+								<items>
+									<UploadCollectionItem documentId="Others" fileName="{uploadedFiles>FILENAME}" mimeType="{uploadedFiles>MIMETYPE}" enableEdit="false"
+										visibleEdit="false" visibleDelete="false" enableDelete="false"/>
+								</items>
+							</UploadCollection>
+						</Panel>
+					</FlexBox>
+				</FlexBox>
+			</FlexBox>
+			<!--Advance Request-->
+			<FlexBox id="advanceRequest" width="100%" direction="Column" visible="true">
+				<HBox width="95%" class="sapUiSmallMargin borderBottom" alignItems="Center">
+					<core:Icon src="sap-icon://batch-payments" size="1rem" class="sapUiTinyMarginBeginEnd"/>
+					<Title text="Advance Request"/>
+				</HBox>
+				<FlexBox width="100%" direction="Column" class="border-lineRadius">
+					<HBox width="95%" class="sapUiSmallMargin borderBottom" justifyContent="SpaceAround">
+						<HBox direction="Column" width="23%">
+							<Title text="Amount"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Date"/>
+						</HBox>
+						<HBox direction="Column" width="23%">
+							<Title text="Reason"/>
+						</HBox>
+					</HBox>
+					<List id="list8" items="{expenseItemsExtra>/Others}">
+						<items>
+							<CustomListItem>
+								<FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center">
+									<FlexBox width="100%" direction="Column" justifyContent="Center">
+										<FlexBox justifyContent="SpaceAround">
+											<HBox direction="Column" width="23%" class="sapUiTinyMarginBottom">
+												<Text text="{expenseItemsExtra>title}"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="{expenseItemsExtra>date}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+											<HBox direction="Column" width="23%">
+												<Text text="₹{expenseItemsExtra>amount}" class="sapUiTinyMarginBottom"/>
+											</HBox>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+							</CustomListItem>
+						</items>
+					</List>
+				</FlexBox>
+			</FlexBox>
+		</Panel>
+		<!-- Expense Item Others Section -->
+		<Panel width="95%" class="sapUiSmallMargin noBorderPanel"></Panel>
+		<footer>
+			<OverflowToolbar>
+				<HBox width="100%" justifyContent="End">
+					<Button text="Reject" type="Reject" class="sapUiTinyMarginEnd"/>
+					<Button text="Accept" type="Accept" class="sapUiTinyMarginEnd"/>
+				</HBox>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

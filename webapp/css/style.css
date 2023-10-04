@@ -1,0 +1,60 @@
+/* Enter your custom styles here */
+/******* popup box ***********/
+
+.PopOver {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.40) !important
+}
+
+.circleImage {
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    box-shadow: 10px 7px 73px -25px rgba(30, 43, 179, 1) !important;
+    transition: transform 0.3s ease;
+}
+
+.profileBox {
+    padding: 12px !important;
+    border: 1px solid rgba(44, 91, 163, 0.3);
+    border-radius: 10px !important;
+}
+
+.profileBox:hover {
+    transform: perspective(500px) rotateX(-15deg);
+}
+
+/******* design radius ******/
+.border-lineRadius{
+	border: 1px solid #d1dce7;
+    border-radius: 50px;
+    box-shadow: 10px 7px 73px -35px rgba(30, 43, 179, 0.3) !important;
+}
+.border-lineRadiusAuto{
+	border: 1px solid #d1dce7;
+    border-radius: 50px;
+    box-shadow: 10px 7px 73px -35px rgba(30, 43, 179, 0.3) !important;
+    overflow: auto !important;
+}
+.border-lineRadiusOval{
+	border: 1px solid #d1dce7;
+    border-radius: 30px;
+    box-shadow: 10px 7px 73px -35px rgba(30, 43, 179, 0.3) !important;
+}
+
+.borderBottom{
+	border-bottom: 1px solid #d1dce7;
+}
+.noBorderPanel{
+	border-bottom: none !important;
+}
+.sapMPanelContent:not(.sapMPanelBGTransparent){
+	border-bottom: none !important;
+}
+.sapMBtnInner {
+	border-radius: 50px !important;
+}
+.sapMLIB{
+	border-bottom: none !important;
+}
+.sapMInputBaseInner{
+	border-radius: 50px !important;
+}
